@@ -26,4 +26,9 @@ public enum Color {
     }
     return null;
   }
+
+  @Override
+  public String toString() {
+    return "Col[" + c + "]";
+  }
 }

@@ -16,7 +16,7 @@ public class Code {
   private Color[] code = new Color[CODELENGTH];
 
   public Code(Color[] code) {
-    this.code = code;
+    this.code = code.clone();
   }
 
   public static Code valueOf(String cs) {
@@ -81,5 +81,14 @@ public class Code {
     } else {
       codes.add(new Code(currentCode));
     }
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for(int i = 0; i < CODELENGTH; i++) {
+      sb.append(code[i].getC());
+    }
+    return sb.toString();
   }
 }
