@@ -1,13 +1,11 @@
 package mastermind;
 
-
-import org.omg.CORBA.CODESET_INCOMPATIBLE;
-
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 /**
- * Represents a MasterMind Code consisting of four Colors.
+ * Represents a MasterMind code consisting of four colors.
  */
 public class Code {
   public static final int CODELENGTH = 4;
@@ -34,7 +32,34 @@ public class Code {
     return new Code(newCode);
   }
 
-  Color colorAt(int pos) {
+  public static Set<Code> combinations() {
+    Set<Code> codes = new HashSet<Code>();
+    combinationsHelper(new Color[CODELENGTH], 0, codes);
+    return codes;
+  }
+
+  private static void combinationsHelper(Color[] currentCode, int depth, Set<Code> codes) {
+    if (depth < CODELENGTH) {
+      for (Color c : Color.values()) {
+        currentCode[depth] = c;
+        combinationsHelper(currentCode, depth + 1, codes);
+      }
+    } else {
+      codes.add(new Code(currentCode));
+    }
+  }
+
+  public static Code createRandom() {
+    Random rand = new Random(System.currentTimeMillis());
+    Color[] values = Color.values();
+    Color[] code = new Color[CODELENGTH];
+    for (int i = 0; i < CODELENGTH; i++) {
+      code[i] = values[rand.nextInt(values.length)];
+    }
+    return new Code(code);
+  }
+
+  public Color colorAt(int pos) {
     return code[pos];
   }
 
@@ -66,27 +91,10 @@ public class Code {
     return matches - exactMatches(other);
   }
 
-  public static Set<Code> combinations() {
-    Set<Code> codes = new HashSet<Code>();
-    combinationsHelper(new Color[CODELENGTH], 0, codes);
-    return codes;
-  }
-
-  public static void combinationsHelper(Color[] currentCode, int depth, Set<Code> codes) {
-    if (depth < CODELENGTH) {
-      for (Color c : Color.values()) {
-        currentCode[depth] = c;
-        combinationsHelper(currentCode, depth + 1, codes);
-      }
-    } else {
-      codes.add(new Code(currentCode));
-    }
-  }
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    for(int i = 0; i < CODELENGTH; i++) {
+    for (int i = 0; i < CODELENGTH; i++) {
       sb.append(code[i].getC());
     }
     return sb.toString();

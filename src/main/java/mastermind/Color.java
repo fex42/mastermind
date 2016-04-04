@@ -1,5 +1,8 @@
 package mastermind;
 
+/**
+ * The colors in a MasterMind game.
+ */
 public enum Color {
   RED('R'),
   GREEN('G'),
@@ -14,17 +17,17 @@ public enum Color {
     this.c = c;
   }
 
-  public char getC() {
-    return c;
-  }
-
   public static Color withC(char c) {
-    for (Color color: values()) {
+    for (Color color : values()) {
       if (color.getC() == c) {
         return color;
       }
     }
     return null;
+  }
+
+  public char getC() {
+    return c;
   }
 
   @Override
